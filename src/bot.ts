@@ -16,9 +16,6 @@ if (!TELEGRAM_TOKEN) {
 const bot = new Telegraf(TELEGRAM_TOKEN);
 const localSession = new LocalSession();
 
-axios.defaults.baseURL = "https://app.clickup.com/api/v2";
-axios.defaults.headers.post["Content-Type"] = "application/json";
-
 let ids = [
   140391,
   308410,
