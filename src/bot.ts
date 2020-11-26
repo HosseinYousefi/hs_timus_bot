@@ -40,7 +40,7 @@ bot.command('tellme', (ctx) => {
     (err, stdout, stderr) => {
       ++count;
       if (stdout.length < 100) {
-        answer += stdout;
+        answer += stdout + '\n';
       }
       if (count == ids.length) {
         ctx.reply(answer);
