@@ -16,12 +16,12 @@ if (!TELEGRAM_TOKEN) {
 const bot = new Telegraf(TELEGRAM_TOKEN);
 const localSession = new LocalSession();
 
-let ids = [
-  140391,
-  308410,
-  308486,
-  308487,
-  308485
+let students = [
+  {name: 'Hossein Yousefi', id: 140391, telegram: 'uhossein'},
+  {name: 'Ilya Yarmolkevich', id: 308410, telegram: 'yarilo2607'},
+  {name: 'Maksym Oboznyi', id: 308486, telegram: 'oboznyi'},
+  {name: 'Artem Plotkin', id: 308487, telegram: 'artemrox'},
+  {name: 'Anier Velasco Sotomayor', id: 308485, telegram: 'aniervs'}
 ]
 
 bot.use(localSession.middleware());
@@ -36,23 +36,22 @@ bot.command('tellme', (ctx) => {
   let answer = [];
   let count = 0;
 
-  for (let i = 0; i < ids.length; i++) {
-    exec('curl -s https://timus.online/author.aspx\\?id\\=' + ids[i] + ' | sed -E "s/.*author_name\\">([a-zA-Z ]+)<.*>([0-9]+) out of 1148<.*/\\1-\\2/g"',
+  for (let i = 0; i < students.length; i++) {
+    exec('curl -s https://timus.online/author.aspx\\?id\\=' + students[i].id + ' | sed -E "s/.*>([0-9]+) out of 1148<.*/\\1/g"',
     (err, stdout, stderr) => {
-      let name = stdout.slice(0, stdout.search('-'));
-      let score = parseInt(stdout.slice(stdout.search('-')+1, stdout.length));
+      let score = parseInt(stdout);
       ++count;
       if (stdout.length < 100) {
-        answer.push({score, name});
+        answer.push({score: score, name: students[i].name, telegram: students[i].telegram});
       }
-      if (count == ids.length) {
+      if (count == students.length) {
         answer.sort((a, b) => b.score - a.score);
         console.log(answer);
         let result = '';
         for (let i = 0; i < answer.length; i++) {
-          result += answer[i].score + ': ' + answer[i].name + '\n';
+          result += `${i+1}. [${answer[i].name}](https://telegram.me/${answer[i].telegram}): *${answer[i].score}*\n`;
         }
-        ctx.reply(result);
+        ctx.replyWithMarkdown(result, {disable_web_page_preview: true});
       }
     });
   }
