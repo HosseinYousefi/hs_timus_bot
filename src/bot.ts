@@ -33,17 +33,26 @@ bot.start(async (ctx) => {
 });
 
 bot.command('tellme', (ctx) => {
-  let answer = "";
+  let answer = [];
   let count = 0;
+
   for (let i = 0; i < ids.length; i++) {
-    exec('curl -s https://timus.online/author.aspx\\?id\\=' + ids[i] + ' | sed -E "s/.*author_name\\">([a-zA-Z ]+)<.*>([0-9]+) out of 1148<.*/\\1: \\2/g"',
+    exec('curl -s https://timus.online/author.aspx\\?id\\=' + ids[i] + ' | sed -E "s/.*author_name\\">([a-zA-Z ]+)<.*>([0-9]+) out of 1148<.*/\\1-\\2/g"',
     (err, stdout, stderr) => {
+      let name = stdout.slice(0, stdout.search('-'));
+      let score = parseInt(stdout.slice(stdout.search('-')+1, stdout.length - 1));
       ++count;
       if (stdout.length < 100) {
-        answer += stdout + '\n';
+        answer.push({score, name});
       }
       if (count == ids.length) {
-        ctx.reply(answer);
+        answer.sort((a, b) => b.score - a.score);
+        console.log(answer);
+        let result = '';
+        for (let i = 0; i < answer.length; i++) {
+          result += answer[i].score + ': ' + answer[i].name + '\n';
+        }
+        ctx.reply(result);
       }
     });
   }
