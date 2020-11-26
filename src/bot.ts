@@ -7,7 +7,7 @@ const { NODE_ENV } = process.env;
 
 if (NODE_ENV !== "production") require("dotenv").config();
 
-const { TELEGRAM_TOKEN, SERVER_URL } = process.env;
+const { TELEGRAM_TOKEN } = process.env;
 
 if (!TELEGRAM_TOKEN) {
   throw new Error("Telegram token is not defined.");
