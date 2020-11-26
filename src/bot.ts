@@ -40,7 +40,7 @@ bot.command('tellme', (ctx) => {
     exec('curl -s https://timus.online/author.aspx\\?id\\=' + ids[i] + ' | sed -E "s/.*author_name\\">([a-zA-Z ]+)<.*>([0-9]+) out of 1148<.*/\\1-\\2/g"',
     (err, stdout, stderr) => {
       let name = stdout.slice(0, stdout.search('-'));
-      let score = parseInt(stdout.slice(stdout.search('-')+1, stdout.length - 1));
+      let score = parseInt(stdout.slice(stdout.search('-')+1, stdout.length));
       ++count;
       if (stdout.length < 100) {
         answer.push({score, name});
