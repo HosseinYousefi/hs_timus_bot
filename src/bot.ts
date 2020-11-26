@@ -35,15 +35,21 @@ bot.start(async (ctx) => {
   );
 });
 
-bot.on('text', (ctx) => {
+bot.command('tellme', (ctx) => {
   let answer = "";
-  for (let id in ids) {
-    exec(`curl -s https://timus.online/author.aspx\?id\=${id} | sed -E "s/.*author_name\">([a-zA-Z ]+)<.*>([0-9]+) out of 1148<.*/\1: \2/g"`,
+  let count = 0;
+  for (let i = 0; i < ids.length; i++) {
+    exec('curl -s https://timus.online/author.aspx\\?id\\=' + ids[i] + ' | sed -E "s/.*author_name\\">([a-zA-Z ]+)<.*>([0-9]+) out of 1148<.*/\\1: \\2/g"',
     (err, stdout, stderr) => {
-      answer += stdout;
+      ++count;
+      if (stdout.length < 100) {
+        answer += stdout;
+      }
+      if (count == ids.length) {
+        ctx.reply(answer);
+      }
     });
   }
-  ctx.reply(answer);
-})
+});
 
 bot.launch()

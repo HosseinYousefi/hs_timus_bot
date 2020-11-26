@@ -1,5 +1,5 @@
 {
-  "name": "clkupbot",
+  "name": "hs_timus_bot",
   "version": "1.0.0",
   "description": "HS Timus",
   "main": "src/index.ts",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HosseinYousefi/clkupbot.git"
+    "url": "git+https://github.com/HosseinYousefi/hs_timus_bot.git"
   },
   "keywords": [
     "clickup",
@@ -20,9 +20,9 @@
   "author": "Hossein Yousefi",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/HosseinYousefi/clkupbot/issues"
+    "url": "https://github.com/HosseinYousefi/hs_timus_bot/issues"
   },
-  "homepage": "https://github.com/HosseinYousefi/clkupbot#readme",
+  "homepage": "https://github.com/HosseinYousefi/hs_timus_bot#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
