@@ -42,14 +42,13 @@ bot.command('tellme', (ctx) => {
       let score = parseInt(stdout);
       ++count;
       if (stdout.length < 100) {
-        answer.push({score: score, name: students[i].name, telegram: students[i].telegram});
+        answer.push({score: score, name: students[i].name, telegram: students[i].telegram, id: students[i].id});
       }
       if (count == students.length) {
         answer.sort((a, b) => b.score - a.score);
-        console.log(answer);
         let result = '';
         for (let i = 0; i < answer.length; i++) {
-          result += `${i+1}. [${answer[i].name}](https://telegram.me/${answer[i].telegram}): *${answer[i].score}*\n`;
+          result += `${i+1}. [${answer[i].name}](https://timus.online/author.aspx?id=${answer[i].id}): *${answer[i].score}*\n`;
         }
         ctx.replyWithMarkdown(result, {disable_web_page_preview: true});
       }
