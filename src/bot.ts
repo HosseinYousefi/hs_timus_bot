@@ -1,6 +1,7 @@
 import Telegraf, { Markup } from "telegraf";
 import axios from "axios";
 import { exec } from "child_process";
+import * as cron from 'node-cron';
 const LocalSession = require("telegraf-session-local");
 
 const { NODE_ENV } = process.env;
@@ -32,7 +33,7 @@ bot.start(async (ctx) => {
   );
 });
 
-bot.command('tellme', (ctx) => {
+function useResult(f: (result: string) => void) {
   let answer = [];
   let count = 0;
 
@@ -50,10 +51,31 @@ bot.command('tellme', (ctx) => {
         for (let i = 0; i < answer.length; i++) {
           result += `${i+1}. [${answer[i].name}](https://timus.online/author.aspx?id=${answer[i].id}): *${answer[i].score}*\n`;
         }
-        ctx.replyWithMarkdown(result, {disable_web_page_preview: true});
+        f(result);
       }
     });
   }
+}
+
+bot.command('tellme', (ctx) => {
+  useResult((result) => {
+    ctx.replyWithMarkdown(result, {disable_web_page_preview: true});
+  });
+});
+
+bot.command('watch', (ctx) => {
+  useResult(async (result) => {
+    let msg = result + '_\n\nLast updated: ' + new Date() + '_';
+    let message = await ctx.replyWithMarkdown(msg, {disable_web_page_preview: true});
+    let chatId = message.chat.id;
+    let messageId = message.message_id;
+    cron.schedule('0/10 * * * *', () => {
+      useResult((result) => {
+        let msg = result + '_\n\nLast updated: ' + new Date() + '_';
+        ctx.telegram.editMessageText(chatId, messageId, null, msg, {parse_mode: 'Markdown', disable_web_page_preview: true});
+      });
+    });
+  });
 });
 
 bot.launch()
