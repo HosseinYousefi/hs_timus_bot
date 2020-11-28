@@ -70,6 +70,7 @@ bot.command('watch', (ctx) => {
     let chatId = message.chat.id;
     let messageId = message.message_id;
     cron.schedule('* * * * *', () => {
+      console.log('Updating results...');
       useResult((result) => {
         let msg = result + '_\n\nLast updated: ' + new Date() + '_';
         ctx.telegram.editMessageText(chatId, messageId, null, msg, {parse_mode: 'Markdown', disable_web_page_preview: true});
