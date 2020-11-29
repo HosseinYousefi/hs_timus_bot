@@ -22,7 +22,8 @@ let students = [
   {name: 'Ilya Yarmolkevich', id: 308410, telegram: 'yarilo2607'},
   {name: 'Maksym Oboznyi', id: 308486, telegram: 'oboznyi'},
   {name: 'Artem Plotkin', id: 308487, telegram: 'artemrox'},
-  {name: 'Anier Velasco Sotomayor', id: 308485, telegram: 'aniervs'}
+  {name: 'Anier Velasco Sotomayor', id: 308485, telegram: 'aniervs'},
+  {name: 'Ruslan Marchenko', id: 308619, telegram: 'SenseiAdde'}
 ]
 
 bot.use(localSession.middleware());
