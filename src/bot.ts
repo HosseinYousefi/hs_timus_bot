@@ -67,7 +67,7 @@ bot.command('tellme', (ctx) => {
 
 bot.command('watch', (ctx) => {
   useResult(async (result) => {
-    let msg = result + '_\n\nLast updated: ' + new Date() + '_';
+    let msg = result + 'https://docs.google.com/spreadsheets/d/1gEmw_5_ygAaLxjUw8tTCHJw5HgEQdTWxW3cZAG0YCgY/edit#gid=0' + '_\n\nLast updated: ' + new Date() + '_';
     let message = await ctx.replyWithMarkdown(msg, {disable_web_page_preview: true});
     let chatId = message.chat.id;
     let messageId = message.message_id;
