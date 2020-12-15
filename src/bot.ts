@@ -74,7 +74,7 @@ bot.command('watch', (ctx) => {
     cron.schedule('* * * * *', () => {
       console.log('Updating results...');
       useResult((result) => {
-        let msg = result + '_\n\nLast updated: ' + new Date() + '_';
+        let msg = result + '\n[Timus Sessions Spreadsheet](https://docs.google.com/spreadsheets/d/1gEmw_5_ygAaLxjUw8tTCHJw5HgEQdTWxW3cZAG0YCgY/edit#gid=0)' + '\n\n_Last updated: ' + new Date() + '_';
         ctx.telegram.editMessageText(chatId, messageId, null, msg, {parse_mode: 'Markdown', disable_web_page_preview: true});
       });
     });
