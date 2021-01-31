@@ -41,7 +41,7 @@ function useResult(f: (result: string) => void) {
   let count = 0;
 
   for (let i = 0; i < students.length; i++) {
-    exec('curl -s https://timus.online/author.aspx\\?id\\=' + students[i].id + ' | sed -E "s/.*>([0-9]+) out of 1148<.*/\\1/g"',
+    exec('curl -s https://timus.online/author.aspx\\?id\\=' + students[i].id + ' | sed -E "s/.*>([0-9]+) out of 11[0-9][0-9]<.*/\\1/g"',
     (err, stdout, stderr) => {
       let score = parseInt(stdout);
       ++count;
@@ -61,6 +61,7 @@ function useResult(f: (result: string) => void) {
 }
 
 bot.command('tellme', (ctx) => {
+  console.log('hiiii');
   useResult((result) => {
     ctx.replyWithMarkdown(result, {disable_web_page_preview: true});
   });
@@ -72,11 +73,16 @@ bot.command('watch', (ctx) => {
     let message = await ctx.replyWithMarkdown(msg, {disable_web_page_preview: true});
     let chatId = message.chat.id;
     let messageId = message.message_id;
+    print()
     cron.schedule('* * * * *', () => {
       console.log('Updating results...');
-      useResult((result) => {
+      useResult(async (result) => {
         let msg = result + '\n[Timus Sessions Spreadsheet](https://docs.google.com/spreadsheets/d/1gEmw_5_ygAaLxjUw8tTCHJw5HgEQdTWxW3cZAG0YCgY/edit#gid=0)' + '\n\n_Last updated: ' + new Date() + '_';
-        ctx.telegram.editMessageText(chatId, messageId, null, msg, {parse_mode: 'Markdown', disable_web_page_preview: true});
+        try {
+          await ctx.telegram.editMessageText(chatId, messageId, null, msg, {parse_mode: 'Markdown', disable_web_page_preview: true});
+        } catch {
+          console.log('error!')
+        }
       });
     });
   });
