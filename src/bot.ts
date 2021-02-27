@@ -73,7 +73,6 @@ bot.command('watch', (ctx) => {
     let message = await ctx.replyWithMarkdown(msg, {disable_web_page_preview: true});
     let chatId = message.chat.id;
     let messageId = message.message_id;
-    print()
     cron.schedule('* * * * *', () => {
       console.log('Updating results...');
       useResult(async (result) => {
